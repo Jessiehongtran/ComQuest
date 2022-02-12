@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Communication</title>
+        <style>
+            .message {
+                padding: 8px 30px;
+                border: 1px solid silver
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="wrapper">
+                <div class="message">
+
+                </div>
+                <button class="responses"></button>
+            </div>
+        </div>
+        <script>
+            const message = document.getElementsByClassName("message")[0]
+            const responses = document.getElementsByClassName("response")[0]
+            const messages = [
+                {
+                    code: "0",
+                    text: "Hi Foo, how are you, really?",
+                    responses: [
+                        {
+                            next_code: "01",
+                            text: "I am okay or above"
+                        },
+                        { 
+                            next_code: "02",
+                            text: "Not really good"
+                        }
+                    ]
+                },
+                {
+                    code: "01",
+                    text: "Great, let's get you into Communication Quest",
+                    responses: [
+                        {
+                            code: "011",
+                            text: "Okay"
+                        },
+                        {
+                            code: "012",
+                            text: "I regret, bye"
+                        }
+                    ]
+                },
+                {
+                    code: "02",
+                    text: "Aww, then you should stop here and take a rest"
+                }
+            ]
+
+            let curMessage = messages[0]
+
+            function getMessage(){
+                message.innerHTML = curMessage.text
+                if (curMessage.responses){
+                    for (let i = 0; i < curMessage.responses.length; i++){
+                        let btn = document.createElement("button")
+                        btn.innerHTML = curMessage.responses[i].text
+                        btn.style.padding = "8px 20px"
+                        btn.style.margin = "5px"
+                        btn.setAttribute('click', function(){
+                            curMessage = messages.filter(each => each.code === curMessage.responses[i].next_code)[0]
+                            getMessage()
+                        })
+                        responses.appendChild(btn)
+                    }
+                }
+                
+                
+            }
+
+            setTimeout(getMessage, 1000)
+        </script>
+    </body>
+</html>
